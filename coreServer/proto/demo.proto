@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+
+option go_package = "./proto;pb";
+package demoPB;
+import "common.proto";
+
+// Demo 示例对象
+message Demo {
+  string ID = 1;                              // 唯一标识
+  string Code = 2;                            // 编号
+  string Name = 3;                            // 名称
+  string Memo = 4;                            // 备注
+  int32 Status = 5;                           // 状态(1:启用 2:停用)
+  string Creator = 6;                         // 创建者
+  google.protobuf.Timestamp CreatedAt = 7;    // 创建时间
+  google.protobuf.Timestamp UpdatedAt = 8;    // 更新时间
+}
+
+// DemoQueryParam 查询条件
+message DemoQueryParam {
+  commonPB.PaginationParam PaginationParam = 1;
+  string Code = 2;                      // 编号
+  string QueryValue = 3;                // 查询值
+}
+
+// DemoQueryOptions 示例对象查询可选参数项
+message DemoQueryOptions {
+  repeated commonPB.OrderField OrderFields = 1; // 排序字段
+}
+
+message DemoQueryRequest {
+  DemoQueryParam Params = 1;
+  DemoQueryOptions Options = 2;
+}
+
+message DemoGetRequest {
+  string ID = 1;
+}
+
+message DemoDeleteRequest {
+  string ID = 1;
+}
+
+message DemoUpdateStatusRequest {
+  string ID = 1;
+  uint32 Status = 2;
+}
+
+// DemoQueryResult 示例对象查询结果
+message DemoQueryResult {
+  repeated Demo Data = 1;
+  commonPB.PaginationResult PageResult = 2;
+}
+
+service DemoGreeter {
+  rpc Query (DemoQueryRequest) returns (DemoQueryResult) {}                   // 查询数据
+  rpc Get (DemoGetRequest) returns (Demo) {}                                  // 查询指定数据
+  rpc Create (Demo) returns (commonPB.IDResult);                              // 创建数据
+  rpc Update (Demo) returns (commonPB.StatusResult);                          // 更新数据
+  rpc Delete (DemoDeleteRequest) returns (commonPB.StatusResult);             // 删除数据
+  rpc UpdateStatus (DemoUpdateStatusRequest) returns (commonPB.StatusResult); // 更新状态
+}
+  

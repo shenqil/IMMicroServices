@@ -1,0 +1,62 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+option go_package = "./proto;pb";
+
+package commonPB;
+
+// PaginationParam 分页查询条件
+message PaginationParam  {
+  bool Pagination = 1;// 是否使用分页查询
+  bool OnlyCount = 2; // 是否仅查询count
+  int64 Current = 3;  // 当前页
+  int64 PageSize = 4; // 页大小
+}
+
+// PaginationResult 分页查询结果
+message PaginationResult {
+  int64 Total = 1;
+  int64 Current = 2;
+  int64 PageSize = 3;
+}
+
+// 定义HTTP状态文本常量
+enum StatusText {
+  OKStatus = 0;
+  ErrorStatus = 1;
+  FailStatus = 2;
+}
+
+// StatusResult 响应状态
+message StatusResult  {
+  StatusText Status = 1; // 状态(OK)
+}
+
+// ErrorItem 响应错误项
+message ErrorItem {
+  int64 Code = 1;     // 错误码
+  string Message = 2; // 错误信息
+}
+
+// ListResult 响应列表数据
+message ListResult {
+  repeated google.protobuf.Any  List = 1;
+  PaginationResult Pagination = 2;
+}
+
+// OrderDirection 排序方向
+enum OrderDirection {
+  OrderByASC = 0;
+  OrderByDESC = 1;
+}
+
+// OrderField 排序字段
+message OrderField {
+  string Key = 1;               // 字段名(字段名约束为小写蛇形)
+  OrderDirection Direction = 2;  // 排序方向
+}
+
+// IDResult 响应唯一标识
+message IDResult {
+  string ID = 1;
+}
