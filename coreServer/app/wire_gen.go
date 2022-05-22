@@ -36,14 +36,26 @@ func BuildInjector() (*Injector, func(), error) {
 		TransModel: trans,
 		UserModel:  user,
 	}
+	captcha := &service.Captcha{}
+	jwtAuth, cleanup2, err := InitAuth()
+	if err != nil {
+		cleanup()
+		return nil, nil, err
+	}
+	token := &service.Token{
+		Auth: jwtAuth,
+	}
 	routerRouter := &router.Router{
-		DemoSrc: serviceDemo,
-		UserSrc: serviceUser,
+		DemoSrc:    serviceDemo,
+		UserSrc:    serviceUser,
+		CaptchaSrc: captcha,
+		TokenSrc:   token,
 	}
 	injector := &Injector{
 		Router: routerRouter,
 	}
 	return injector, func() {
+		cleanup2()
 		cleanup()
 	}, nil
 }

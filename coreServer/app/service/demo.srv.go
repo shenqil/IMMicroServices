@@ -35,7 +35,7 @@ func (a *Demo) Get(ctx context.Context, in *pb.DemoGetRequest) (*pb.Demo, error)
 	if err != nil {
 		return nil, err
 	} else if item == nil {
-		return nil, errors.New("未找到指定错误")
+		return nil, errors.New("未找到指定数据")
 	}
 	return item, nil
 }

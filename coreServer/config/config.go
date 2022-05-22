@@ -53,6 +53,9 @@ type Config struct {
 	Gorm     Gorm
 	MySQL    MySQL
 	Postgres Postgres
+	Captcha  Captcha
+	Redis    Redis
+	JWTAuth  JWTAuth
 }
 
 // Root root用户
@@ -113,4 +116,29 @@ type Postgres struct {
 func (a Postgres) DSN() string {
 	return fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s TimeZone=Asia/Shanghai",
 		a.Host, a.Port, a.User, a.DBName, a.Password, a.SSLMode)
+}
+
+// Captcha 图形验证码配置参数
+type Captcha struct {
+	Store       string
+	Length      int
+	Width       int
+	Height      int
+	RedisDB     int
+	RedisPrefix string
+}
+
+// Redis redis配置参数
+type Redis struct {
+	Addr     string
+	Password string
+}
+
+// JWTAuth 用户认证
+type JWTAuth struct {
+	SigningMethod string
+	SigningKey    string
+	Expired       int
+	RedisDB       int
+	RedisPrefix   string
 }

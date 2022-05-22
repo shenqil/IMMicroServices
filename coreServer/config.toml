@@ -58,3 +58,36 @@ Password = "123456"
 DBName = "gin-admin"
 # SSL模式
 SSLMode = "disable"
+
+[Captcha]
+# 存储方式(支持：memory/redis)
+Store = "redis"
+# 数字长度
+Length = 4
+# 图片宽度
+Width = 400
+# 图片高度
+Height = 160
+# redis数据库(如果存储方式是redis，则指定存储的数据库)
+RedisDB = 10
+# 存储到redis数据库中的键名前缀
+RedisPrefix = "captcha_"
+
+# redis配置信息
+[Redis]
+# 地址
+Addr = "127.0.0.1:6379"
+# 密码
+Password = ""
+
+[JWTAuth]
+# 签名方式(支持：HS512/HS384/HS512)
+SigningMethod = "HS512"
+# 签名key
+SigningKey = "gin-admin"
+# 过期时间（单位秒）
+Expired = 7200
+# redis数据库(如果存储方式是redis，则指定存储的数据库)
+RedisDB = 10
+# 存储到redis数据库中的键名前缀
+RedisPrefix = "auth_"

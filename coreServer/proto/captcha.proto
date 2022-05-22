@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option go_package = "./proto;pb";
+package captchaPB;
+import "common.proto";
+
+message CaptchaGetRequest {
+}
+
+message CaptchaGetResult {
+  string CaptchaID = 1;
+}
+
+message CaptchaGenerateRequest{
+  string CaptchaID = 1;
+  bool Reload = 2;
+}
+
+message CaptchaGenerateResult{
+  bytes Buffer = 1;
+}
+
+message CaptchaVerifyRequest{
+  string CaptchaID = 1;
+  string CaptchaCode = 2;
+}
+
+
+service CaptchaGreeter {
+  rpc Get(CaptchaGetRequest) returns (CaptchaGetResult);                  // 获取图形验证码信息
+  rpc Generate(CaptchaGenerateRequest) returns (CaptchaGenerateResult);   // 生成相应图形验证码
+  rpc Verify(CaptchaVerifyRequest) returns (commonPB.StatusResult);       // 验证图形验证码
+}
+

@@ -5,6 +5,9 @@ import (
 	"core-server/app/router"
 	"core-server/config"
 	"core-server/util/grpcLogrus"
+	"github.com/LyricTian/captcha"
+	"github.com/LyricTian/captcha/store"
+	"github.com/go-redis/redis"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
@@ -22,11 +25,13 @@ func Run(ctx context.Context) error {
 		return err
 	}
 
+	InitCaptcha()
 	InitGRPCServer(injector.Router)
 
 	return nil
 }
 
+// InitGRPCServer 初始化GRPC服务
 func InitGRPCServer(r *router.Router) {
 	grpclog.SetLoggerV2(grpcLogrus.NewLogrus(logrus.New()))
 	// 监听端口
@@ -43,5 +48,18 @@ func InitGRPCServer(r *router.Router) {
 	if err := grpcServer.Serve(lis); err != nil {
 		logrus.Errorf("[grpc][Serve] err:%v", err)
 		return
+	}
+}
+
+// InitCaptcha 初始化图形验证码
+func InitCaptcha() {
+	cfg := config.C.Captcha
+	if cfg.Store == "redis" {
+		rc := config.C.Redis
+		captcha.SetCustomStore(store.NewRedisStore(&redis.Options{
+			Addr:     rc.Addr,
+			Password: rc.Password,
+			DB:       cfg.RedisDB,
+		}, captcha.Expiration, logrus.StandardLogger(), cfg.RedisPrefix))
 	}
 }
