@@ -7,4 +7,5 @@ var ServiceSet = wire.NewSet(
 	DemoSet,
 	UserSet,
 	CaptchaSet,
+	TokenSet,
 )

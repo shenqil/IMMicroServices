@@ -55,6 +55,7 @@ type Config struct {
 	Postgres Postgres
 	Captcha  Captcha
 	Redis    Redis
+	JWTAuth  JWTAuth
 }
 
 // Root root用户
@@ -131,4 +132,13 @@ type Captcha struct {
 type Redis struct {
 	Addr     string
 	Password string
+}
+
+// JWTAuth 用户认证
+type JWTAuth struct {
+	SigningMethod string
+	SigningKey    string
+	Expired       int
+	RedisDB       int
+	RedisPrefix   string
 }

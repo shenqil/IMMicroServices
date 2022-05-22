@@ -79,3 +79,15 @@ RedisPrefix = "captcha_"
 Addr = "127.0.0.1:6379"
 # 密码
 Password = ""
+
+[JWTAuth]
+# 签名方式(支持：HS512/HS384/HS512)
+SigningMethod = "HS512"
+# 签名key
+SigningKey = "gin-admin"
+# 过期时间（单位秒）
+Expired = 7200
+# redis数据库(如果存储方式是redis，则指定存储的数据库)
+RedisDB = 10
+# 存储到redis数据库中的键名前缀
+RedisPrefix = "auth_"

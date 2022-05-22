@@ -14,6 +14,7 @@ import (
 func BuildInjector() (*Injector, func(), error) {
 	wire.Build(
 		InitGormDB,
+		InitAuth,
 		repo.RepoSet,
 		service.ServiceSet,
 		router.RouterSet,

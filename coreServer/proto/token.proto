@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option go_package = "./proto;pb";
+package tokenPB;
+import "common.proto";
+
+message Token {
+  string AccessToken = 1; // 访问令牌
+  string TokenType = 2;   // 令牌类型
+  int64 ExpiresAt = 3;    // 令牌到期时间戳
+}
+
+message TokenGenerateRequest{
+  string Id = 1;
+}
+message TokenGenerateResult{
+  Token Token = 1;
+}
+
+message TokenDestroyRequest{
+  string AccessToken = 1;
+}
+
+message TokenParseRequest{
+  string AccessToken = 1;
+}
+
+message TokenParseResult{
+  string ID = 1;
+}
+
+service TokenGreeter {
+  rpc Generate(TokenGenerateRequest)returns(TokenGenerateResult);           // 生成令牌
+  rpc Destroy(TokenDestroyRequest)returns(commonPB.StatusResult);           // 销毁令牌
+  rpc Parse(TokenParseRequest)returns(TokenParseResult);                    // 解析令牌
+}
+
