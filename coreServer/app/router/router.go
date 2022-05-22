@@ -12,11 +12,13 @@ var RouterSet = wire.NewSet(wire.Struct(new(Router), "*"))
 
 // Router 路由管理器
 type Router struct {
-	DemoSrc *service.Demo
-	UserSrc *service.User
+	DemoSrc    *service.Demo
+	UserSrc    *service.User
+	CaptchaSrc *service.Captcha
 }
 
 func (a *Router) Register(s grpc.ServiceRegistrar) {
 	pb.RegisterDemoGreeterServer(s, a.DemoSrc)
 	pb.RegisterUserGreeterServer(s, a.UserSrc)
+	pb.RegisterCaptchaGreeterServer(s, a.CaptchaSrc)
 }
