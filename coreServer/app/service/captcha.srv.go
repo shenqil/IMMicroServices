@@ -1,6 +1,5 @@
 package service
 
-import "C"
 import (
 	"bytes"
 	"context"
@@ -12,7 +11,7 @@ import (
 )
 
 // CaptchaSet 注入Captcha
-var CaptchaSet = wire.NewSet(wire.NewSet(new(Captcha)))
+var CaptchaSet = wire.NewSet(wire.Struct(new(Captcha)))
 
 // Captcha 图形验证码
 type Captcha struct {
